@@ -1,0 +1,17 @@
+local Teams = game:GetService("Teams")
+
+game:GetService("ReplicatedStorage").ChildAdded:Connect(function(child)
+	if child.Name == "SetTeamEvent" then return end
+end)
+
+local remote = Instance.new("RemoteEvent")
+remote.Name = "SetTeamEvent"
+remote.Parent = game:GetService("ReplicatedStorage")
+
+remote.OnServerEvent:Connect(function(player, teamName)
+	local targetTeam = Teams:FindFirstChild(teamName)
+	if targetTeam then
+		player.Team = targetTeam
+		player:LoadCharacter()
+	end
+end)
